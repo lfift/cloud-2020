@@ -26,6 +26,8 @@ public class GatewayApplication {
         return builder.routes()
                 .route("route_path", r -> r.path("/zhouchen1998")
                         .uri("https://blog.csdn.net"))
+                .route("route_path", r -> r.path("/ift662498")
+                        .uri("https://blog.csdn.net"))
                 .build();
     }
 }

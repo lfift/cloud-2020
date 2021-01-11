@@ -1,34 +1,13 @@
+server:
+  port: 8000
 spring:
   application:
     name: gateway
+  config:
+    import: optional:configserver:http://127.0.0.1:8888
+  profiles:
+    active: dev
   cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-      routes:
-        - id: test
-          uri: https://blog.csdn.net
-          predicates:
-            - Path=/zhouchen1998
-    sentinel:
-      transport:
-        dashboard: 127.0.0.1:8080
-      filter:
-        enabled: false
-server:
-  port: 8000
-eureka:
-  instance:
-    #EurekaClient向EurekaServer发送心跳的间隔时间（默认为30s，开发环境建议设置较小值）
-    lease-renewal-interval-in-seconds: 1
-    #EurekaServer在收到最后一次心跳后的等待时间，超过则剔除EurekaClient（默认为90s，开发环境建议设置较小值）
-    lease-expiration-duration-in-seconds: 2
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
-    fetch-registry: true
-    register-with-eureka: true
+    config:
+      label: master
+      profile: ${spring.profiles.active}
