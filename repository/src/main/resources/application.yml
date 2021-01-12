@@ -1,6 +1,16 @@
 spring:
   application:
     name: repository
+  sleuth:
+    redis:
+      enabled: false
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://192.168.0.201:9411
 server:
   port: 8002
 eureka:

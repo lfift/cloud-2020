@@ -7,9 +7,6 @@ spring:
           username: ift
           password: 0420lyf.
           search-paths: /**
-          .
-          repos:
-            -
   application:
     name: config
   rabbitmq:
