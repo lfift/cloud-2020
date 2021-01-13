@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: activiti
+  profiles:
+    active: dev

@@ -19,6 +19,7 @@
         <module>order</module>
         <module>repository</module>
         <module>config</module>
+        <module>activiti</module>
     </modules>
     <properties>
         <spring.cloud-version>2020.0.0</spring.cloud-version>
