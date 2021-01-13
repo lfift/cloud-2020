@@ -22,8 +22,7 @@ public class SimpleFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String order = exchange.getRequest().getQueryParams().getFirst("order");
-        assert order != null;
-        if (Integer.parseInt(order) < 10) {
+        if (order != null && Integer.parseInt(order) < 10) {
             ServerHttpResponse response = exchange.getResponse();
             response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
             response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
