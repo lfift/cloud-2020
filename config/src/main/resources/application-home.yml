@@ -1,18 +1,19 @@
 spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/ift/cloud2020-config
+          username: ift
+          password: 0420lyf.
+          search-paths: /**
   application:
-    name: repository
-#  sleuth:
-#    redis:
-#      enabled: false
-#    web:
-#      client:
-#        enabled: true
-#    sampler:
-#      probability: 1.0
-#  zipkin:
-#    base-url: http://192.168.0.201:9411
-server:
-  port: 8002
+    name: config
+  rabbitmq:
+    host: 192.168.3.10
+    port: 5672
+    username: admin
+    password: admin
 eureka:
   instance:
     #EurekaClient向EurekaServer发送心跳的间隔时间（默认为30s，开发环境建议设置较小值）
@@ -26,3 +27,10 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
+server:
+  port: 8888
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

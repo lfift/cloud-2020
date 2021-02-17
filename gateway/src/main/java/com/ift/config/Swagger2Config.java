@@ -52,32 +52,31 @@ public class Swagger2Config implements SwaggerResourcesProvider {
 
     @Override
     public List<SwaggerResource> get() {
-//        List<SwaggerResource> resources = new ArrayList<>();
-//        List<String> services = discoveryClient.getServices();
-//        services.forEach(System.out::println);
-//        services.forEach(service -> resources.add(buildSwaggerResource(service)));
-//        return resources;
         List<SwaggerResource> resources = new ArrayList<>();
-        List<String> routeHosts = new ArrayList<>();
-        List<RouteDefinition> routes = gatewayProperties.getRoutes();
-
-        for(RouteDefinition routeDefinition:routes){
-            List<PredicateDefinition> predicates = routeDefinition.getPredicates();
-            for(PredicateDefinition predicateDefinition:predicates){
-                if("path".equalsIgnoreCase(predicateDefinition.getName())){
-                    String s = predicateDefinition.getArgs()
-                            .get(NameUtils.GENERATED_NAME_PREFIX + "0");
-                    SwaggerResource swaggerResource = new SwaggerResource();
-                    swaggerResource.setName(routeDefinition.getId());
-                    swaggerResource.setLocation(s.replace("/**", API_URI));
-                    resources.add(swaggerResource);
-                }
-            }
-        }
-        this.routeLocator.getRoutes().filter(route -> route.getUri().getHost() != null)
-                .subscribe(route -> routeHosts.add(route.getUri().getHost()));
-        routeHosts.forEach(instance -> resources.add(buildSwaggerResource(instance.toLowerCase())));
+        List<String> services = discoveryClient.getServices();
+        services.forEach(service -> resources.add(buildSwaggerResource(service)));
         return resources;
+//        List<SwaggerResource> resources = new ArrayList<>();
+//        List<String> routeHosts = new ArrayList<>();
+//        List<RouteDefinition> routes = gatewayProperties.getRoutes();
+//
+//        for(RouteDefinition routeDefinition:routes){
+//            List<PredicateDefinition> predicates = routeDefinition.getPredicates();
+//            for(PredicateDefinition predicateDefinition:predicates){
+//                if("path".equalsIgnoreCase(predicateDefinition.getName())){
+//                    String s = predicateDefinition.getArgs()
+//                            .get(NameUtils.GENERATED_NAME_PREFIX + "0");
+//                    SwaggerResource swaggerResource = new SwaggerResource();
+//                    swaggerResource.setName(routeDefinition.getId());
+//                    swaggerResource.setLocation(s.replace("/**", API_URI));
+//                    resources.add(swaggerResource);
+//                }
+//            }
+//        }
+//        this.routeLocator.getRoutes().filter(route -> route.getUri().getHost() != null)
+//                .subscribe(route -> routeHosts.add(route.getUri().getHost()));
+//        routeHosts.forEach(instance -> resources.add(buildSwaggerResource(instance.toLowerCase())));
+//        return resources;
     }
 
     private SwaggerResource buildSwaggerResource(String name) {

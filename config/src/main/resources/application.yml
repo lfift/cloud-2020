@@ -1,36 +1,3 @@
 spring:
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://gitee.com/ift/cloud2020-config
-          username: ift
-          password: 0420lyf.
-          search-paths: /**
-  application:
-    name: config
-  rabbitmq:
-    host: 192.168.0.203
-    port: 5672
-    username: admin
-    password: admin
-eureka:
-  instance:
-    #EurekaClient向EurekaServer发送心跳的间隔时间（默认为30s，开发环境建议设置较小值）
-    lease-renewal-interval-in-seconds: 1
-    #EurekaServer在收到最后一次心跳后的等待时间，超过则剔除EurekaClient（默认为90s，开发环境建议设置较小值）
-    lease-expiration-duration-in-seconds: 2
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
-    fetch-registry: true
-    register-with-eureka: true
-server:
-  port: 8888
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
+  profiles:
+    active: home
