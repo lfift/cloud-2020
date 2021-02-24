@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -27,6 +28,15 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @EnableAuthorizationServer
 public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ClientDetailsService clientDetailsService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     /**
      * 配置端点安全策略，也就是谁能访问谁不能访问
      * #checkTokenAccess是资源服务校验Token有效性时的端点，此处配置为所有人都可以访问
@@ -36,7 +46,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.passwordEncoder(new BCryptPasswordEncoder())
+        security.passwordEncoder(passwordEncoder)
                 .checkTokenAccess("permitAll()").allowFormAuthenticationForClients();
     }
 
@@ -48,9 +58,11 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("client_1")
-                .secret(new BCryptPasswordEncoder().encode("123"))
-                .scopes("all").authorizedGrantTypes("authorization_code", "refresh_token")
+        clients.inMemory().withClient("client")
+                .secret(passwordEncoder.encode("client"))
+                .scopes("all").authorizedGrantTypes(AuthorizedGrantType.AUTHORIZATION_CODE,
+                    AuthorizedGrantType.PASSWORD, AuthorizedGrantType.CLIENT_CREDENTIALS,
+                    AuthorizedGrantType.IMPLICIT, AuthorizedGrantType.REFRESH_TOKEN)
                 .redirectUris("https://www.baidu.com");
     }
 
@@ -58,6 +70,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
      * 端点配置
      * #allowedTokenEndpointRequestMethods配置访问获取Token端点的请求方式
      * #tokenServices配置Token存储位置以及相关属性信息比如：Token有效期限、RefreshToken有效期限
+     * #authenticationManager配置OAuth支持password模式
      * #authorizationCodeServices配置授权码存储位置
      *
      * @param endpoints 端点对象
@@ -67,11 +80,9 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                 .tokenServices(tokenServices())
+                .authenticationManager(authenticationManager)
                 .authorizationCodeServices(authorizationCodeServices());
     }
-
-    @Autowired
-    private ClientDetailsService clientDetailsService;
 
     @Bean
     public AuthorizationServerTokenServices tokenServices() {
