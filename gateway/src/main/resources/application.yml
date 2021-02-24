@@ -11,3 +11,8 @@ spring:
     config:
       label: master
       profile: ${spring.profiles.active}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: /check_token
