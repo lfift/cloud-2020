@@ -3,16 +3,29 @@ server:
 spring:
   application:
     name: gateway
-  config:
-    import: optional:configserver:http://127.0.0.1:8888
+#  config:
+#    import: optional:configserver:http://127.0.0.1:8888
   profiles:
     active: home
-  cloud:
-    config:
-      label: master
-      profile: ${spring.profiles.active}
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: /check_token
+      client:
+        provider:
+
+#  cloud:
+#    config:
+#      label: master
+#      profile: ${spring.profiles.active}
+
+#--------------------------OAuth2--------------------------
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:8005/oauth/user_info
+      prefer-token-info: false
+    client:
+      access-token-uri: http://localhost:8005/oauth/token
+      user-authorization-uri: http://localhost:8005/oauth/authorize
+proxy:
+  auth:
+    load-balanced: true

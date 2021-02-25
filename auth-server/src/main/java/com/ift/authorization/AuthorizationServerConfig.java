@@ -26,7 +26,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
  */
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -93,9 +93,9 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         tokenServices.setSupportRefreshToken(true);
         //access_token存储位置
         tokenServices.setTokenStore(new InMemoryTokenStore());
-        //Token过期时间
+        //Token过期时间，12小时
         tokenServices.setAccessTokenValiditySeconds(60 * 60 * 2);
-        //refresh_token的过期时间
+        //refresh_token的过期时间，默认30天
         tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 3);
         return tokenServices;
     }
