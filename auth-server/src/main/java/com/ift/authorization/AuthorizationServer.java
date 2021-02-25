@@ -46,8 +46,9 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.passwordEncoder(passwordEncoder)
-                .checkTokenAccess("permitAll()").allowFormAuthenticationForClients();
+        security.allowFormAuthenticationForClients()
+                .checkTokenAccess("permitAll()")
+                .passwordEncoder(passwordEncoder);
     }
 
     /**
@@ -63,7 +64,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 .scopes("all").authorizedGrantTypes(AuthorizedGrantType.AUTHORIZATION_CODE,
                     AuthorizedGrantType.PASSWORD, AuthorizedGrantType.CLIENT_CREDENTIALS,
                     AuthorizedGrantType.IMPLICIT, AuthorizedGrantType.REFRESH_TOKEN)
-                .redirectUris("https://www.baidu.com");
+                .redirectUris("https://www.baidu.com").autoApprove(true);
     }
 
     /**
