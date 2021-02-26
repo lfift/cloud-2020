@@ -33,4 +33,9 @@ public class TestController {
         return principal;
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "Test";
+    }
+
 }

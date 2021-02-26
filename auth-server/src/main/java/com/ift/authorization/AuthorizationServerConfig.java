@@ -93,7 +93,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenServices.setSupportRefreshToken(true);
         //access_token存储位置
         tokenServices.setTokenStore(new InMemoryTokenStore());
-        //Token过期时间，12小时
+        //Token过期时间，默认12小时
         tokenServices.setAccessTokenValiditySeconds(60 * 60 * 2);
         //refresh_token的过期时间，默认30天
         tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 3);
