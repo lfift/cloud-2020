@@ -20,6 +20,7 @@ public class TestController {
     @PreAuthorize("#oauth2.hasAnyScope('all') || hasAnyRole('ROLE_USER')")
     @GetMapping("/{resource}")
     public String resource(@PathVariable String resource) {
+
         return resource;
     }
 
