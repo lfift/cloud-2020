@@ -4,7 +4,7 @@ security:
   oauth2:
     resource:
 #      token-info-uri: http://localhost:8005/oauth/check_token
-      user-info-uri: http://localhost:8005/oauth/user_info
+      user-info-uri: http://localhost:8005/userInfo
       prefer-token-info: false
 #    client:
 #      client-id: client
