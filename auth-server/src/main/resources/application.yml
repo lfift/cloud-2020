@@ -3,7 +3,4 @@ server:
 spring:
   security:
     user:
-      password: $2a$10$0O2ZFQVUipCVTrKTA.piQ.V0pK1HOCDQJ4ehIz2zeMVbD7f9ie8Am
-logging:
-  level:
-    org.springframework.security: debug
+      password: $2a$10$9WqfnYW1UwyHOvArf3lAc.hdHUPZ87vu14L1GofcPt5GxbizKtz0W
